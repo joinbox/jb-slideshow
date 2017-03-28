@@ -7,6 +7,9 @@
   "main": "",
   "license": "MIT",
   "homepage": "http://joinbox.com",
+  "dependencies":{
+    "flickity":"2.x"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
