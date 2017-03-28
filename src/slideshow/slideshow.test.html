@@ -1,0 +1,50 @@
+<style>
+	slideshow-slide,
+	video-slideshow-slide {
+		display: block;
+		width: 100%;
+		border: 5px solid blue;
+	}
+</style>
+
+<ul>
+	<li>Video should start playing when arriving at video slide</li>
+	<li>Slide should pause while playing video</li>
+	<li>When video is paused, slide should resume</li>
+	<li>When video becomes invisible, it should stop</li>
+</ul>
+
+<jb-slideshow style="border:1px solid tomato;width:600px;display:block;" flickity-options='{"adaptiveHeight": true, "autoPlay": true}'>
+	<slideshow-slide></slideshow-slide>
+	<video-slideshow-slide>
+		<youtube-video identifier="kf57_AZHc1U"></youtube-video>
+	</video-slideshow-slide>
+	<slideshow-slide></slideshow-slide>
+	<slideshow-slide></slideshow-slide>
+	<slideshow-slide></slideshow-slide>
+</jb-slideshow>
+
+<script>
+	/* global Array, document */
+	Array.from(document.querySelectorAll('slideshow-slide, video-slideshow-slide')).forEach((slide) => {
+		slide.style.height = Math.random() * 200 + 200;
+	});
+
+	// Remove slide
+	setTimeout(() => {
+		const slide = document.querySelector('slideshow-slide:last-child');
+		console.info('Remove child %o', slide);
+		slide.parentNode.removeChild(slide);
+	}, 2000);
+</script>
+
+
+<script src="../flickity-master/dist/flickity.pkgd.min.js"></script>
+<link rel="stylesheet" href="../flickity-master/dist/flickity.min.css">
+
+<script src="slideshow.es2015.js"></script>
+<script src="../slideshow-slide/slideshow-slide.es2015.js"></script>
+<script src="../video-slideshow-slide/video-slideshow-slide.es2015.js"></script>
+
+<script src="../youtube-video/youtube-loader.es2015.js"></script>
+<script src="../youtube-video/youtube-video.es2015.js"></script>

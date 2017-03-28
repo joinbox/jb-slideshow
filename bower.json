@@ -1,0 +1,17 @@
+{
+  "name": "jb-slideshow",
+  "authors": [
+    "Felix Steiner"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "http://joinbox.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
