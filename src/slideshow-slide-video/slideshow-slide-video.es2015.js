@@ -27,7 +27,8 @@
 		*/
 		visibilityChange(visible) {
 		
-			if (visible ) {
+			if (visible) {
+				console.log('SlideshowSlideVideo: %o became visible', this);
 				this._modifyVideo('play');
 			}
 			else {
@@ -43,6 +44,7 @@
 		* @param {String} method			'play' or 'pause'
 		*/
 		_modifyVideo(method) {
+			console.log('SlideshowSlideVideo: %s videos %o', method, this._videos);
 			this._videos.forEach((video) => {
 				if (!video.isReady()) return;
 				video[method]();
@@ -59,6 +61,12 @@
 
 			this.addEventListener('add-video', (ev) => {
 				this._videos.push(ev.detail.element);
+			});
+
+			this.addEventListener('remove-video', (ev) => {
+				const el = ev.detail.element;
+				this._videos.splice(el, this.videos.indexOf(el));
+				console.log('SlideshowSlideVideo: Removed video %o, _videos now is %o', el, this._videos);
 			});
 
 			this.addEventListener('pause', (ev) => {
