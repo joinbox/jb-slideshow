@@ -1,9 +1,14 @@
 <style>
+	jb-slideshow {
+		display: block;
+	}
+
 	slideshow-slide,
-	video-slideshow-slide {
+	slideshow-slide-video {
 		display: block;
 		width: 100%;
 		border: 5px solid blue;
+		min-height: 200px;
 	}
 </style>
 
@@ -16,9 +21,9 @@
 
 <jb-slideshow style="border:1px solid tomato;width:600px;display:block;" flickity-options='{"adaptiveHeight": true, "autoPlay": true}'>
 	<slideshow-slide></slideshow-slide>
-	<video-slideshow-slide>
+	<slideshow-slide-video>
 		<youtube-video identifier="kf57_AZHc1U"></youtube-video>
-	</video-slideshow-slide>
+	</slideshow-slide-video>
 	<slideshow-slide></slideshow-slide>
 	<slideshow-slide></slideshow-slide>
 	<slideshow-slide></slideshow-slide>
@@ -39,12 +44,12 @@
 </script>
 
 
-<script src="../flickity-master/dist/flickity.pkgd.min.js"></script>
-<link rel="stylesheet" href="../flickity-master/dist/flickity.min.css">
+<script src="../../bower_components/flickity/dist/flickity.pkgd.min.js"></script>
+<link rel="stylesheet" href="../../bower_components/flickity/dist/flickity.min.css">
 
 <script src="slideshow.es2015.js"></script>
 <script src="../slideshow-slide/slideshow-slide.es2015.js"></script>
-<script src="../video-slideshow-slide/video-slideshow-slide.es2015.js"></script>
+<script src="../slideshow-slide-video/slideshow-slide-video.es2015.js"></script>
 
-<script src="../youtube-video/youtube-loader.es2015.js"></script>
-<script src="../youtube-video/youtube-video.es2015.js"></script>
+<script src="../../../youtube-video/youtube-video/youtube-loader.es2015.js"></script>
+<script src="../../../youtube-video/youtube-video/youtube-video.es2015.js"></script>

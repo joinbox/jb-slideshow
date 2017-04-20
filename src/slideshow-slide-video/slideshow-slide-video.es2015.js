@@ -76,6 +76,6 @@
 	}
 
 	window.SlideshowSlideVideo = SlideshowSlideVideo;
-	window.customElements.define('video-slideshow-slide', SlideshowSlideVideo);
+	window.customElements.define('slideshow-slide-video', SlideshowSlideVideo);
 
 })();
