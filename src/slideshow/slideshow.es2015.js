@@ -130,6 +130,9 @@
 
 		resume() {
 			console.log('Slideshow: Play');
+			// Go straight to next slide
+			//this._flickity.next();
+			// Un-pause autoplay
 			this._flickity.unpausePlayer();
 		}
 

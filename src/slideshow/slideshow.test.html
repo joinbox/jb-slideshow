@@ -8,7 +8,7 @@
 		display: block;
 		width: 100%;
 		border: 5px solid blue;
-		min-height: 200px;
+		min-height: 500px;
 	}
 </style>
 
@@ -17,9 +17,10 @@
 	<li>Slide should pause while playing video</li>
 	<li>When video is paused, slide should resume</li>
 	<li>When video becomes invisible, it should stop</li>
+	<li>When video ends, slideshow should resume</li>
 </ul>
 
-<jb-slideshow style="border:1px solid tomato;width:600px;display:block;" flickity-options='{"adaptiveHeight": true, "autoPlay": true}'>
+<jb-slideshow style="border:1px solid tomato;width:600px;display:block;" flickity-options='{"adaptiveHeight": true, "autoPlay": 2000}'>
 	<slideshow-slide></slideshow-slide>
 	<slideshow-slide-video>
 		<youtube-video identifier="kf57_AZHc1U"></youtube-video>

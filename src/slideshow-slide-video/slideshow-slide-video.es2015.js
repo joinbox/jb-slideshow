@@ -79,6 +79,13 @@
 				this._slideshow.pause();
 			});
 
+			// When video ends, advance to next slide
+			this.addEventListener('end', (ev) => {
+				console.error('end');
+				ev.stopPropagation();
+				this._slideshow.resume();
+			});
+
 		}
 
 	}
