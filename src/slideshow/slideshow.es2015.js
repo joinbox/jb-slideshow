@@ -121,17 +121,18 @@
 
 		pause() {
 			console.log('Slideshow: Pause');
-			this._flickity.pausePlayer();
+			this._flickity.stopPlayer();
 		}
 
 		resume() {
 			console.log('Slideshow: Play');
-			// Un-pause autoplay
-			this._flickity.unpausePlayer();
+			// Un-pause *autoplay*
+			this._flickity.playPlayer();
 		}
 
 		next() {
 			// Go straight to next slide
+			console.log('Slideshow: Next slide');
 			this._flickity.next();
 		}
 

@@ -33,6 +33,12 @@
 			if (visible) {
 				console.log('SlideshowSlideVideo: %o became visible', this);
 				this._modifyVideo('play');
+				// Pause video here and not *only* on play callback of video
+				// as slide might continue while video is loading (and before 
+				// play callback fires). Then this slide is not visible any more,
+				// slideshow won't be paused. Issue happens especially if autoplay
+				// times are low.
+				this._slideshow.pause();
 			}
 			else {
 				this._modifyVideo('pause');
