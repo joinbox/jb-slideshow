@@ -32,7 +32,9 @@
 		* present; needed to store slideshow which is needed to pause/resume it.
 		*/
 		_registerAtSlideshow() {
-			this._sendRegisterEvent('add-slide', null, { registerHandler: (slideshow) => this._registerSlideshowHandler(slideshow) });
+			this._sendRegisterEvent('add-slide', null, {
+				registerHandler: (slideshow) => this._registerSlideshowHandler(slideshow) 
+			});
 		}
 
 

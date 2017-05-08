@@ -13,13 +13,9 @@
 	class Slideshow extends HTMLElement {
 
 		constructor() {
-
 			super();
-
 			this._slides = [];
-
 			this._setupSlideListeners();
-
 		}
 
 

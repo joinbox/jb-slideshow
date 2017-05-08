@@ -81,7 +81,7 @@
 
 			// When video ends, advance to next slide
 			this.addEventListener('end', (ev) => {
-				console.error('end');
+				console.log('SlideshowSlideVideo: Video ended, resume slideshow');
 				ev.stopPropagation();
 				this._slideshow.resume();
 			});
