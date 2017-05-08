@@ -58,6 +58,9 @@
 			console.log('SlideshowSlideVideo: %s videos %o', method, this._videos);
 			this._videos.forEach((video) => {
 				if (!video.isReady()) return;
+				if (!video[method]) {
+					return console.error('SlideshowSlideVideo: Cannot call method %o on video %o, does not exist', method, video);
+				}
 				video[method](...args);
 			});
 		}
