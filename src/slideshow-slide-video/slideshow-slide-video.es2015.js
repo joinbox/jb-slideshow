@@ -19,6 +19,7 @@
 			this._videos = [];
 			this._addVideoListeners();
 			console.log('SlideshowSlideVideo: Constructed');
+			this._isVisible = false;
 
 		}
 
@@ -26,6 +27,8 @@
 		* Override SlideshowSlide's implementation, called from Slideshow
 		*/
 		visibilityChange(visible) {
+
+			this._isVisible = visible;
 		
 			if (visible) {
 				console.log('SlideshowSlideVideo: %o became visible', this);
@@ -41,13 +44,15 @@
 
 		/**
 		* Play or pause all videos if they are ready.
-		* @param {String} method			'play' or 'pause'
+		* @param {String} method		'play' or 'pause'
+		* @param {Array} args			Arguments that method will be called with; needs to be an
+		*								array that will be spread.
 		*/
-		_modifyVideo(method) {
+		_modifyVideo(method, args = []) {
 			console.log('SlideshowSlideVideo: %s videos %o', method, this._videos);
 			this._videos.forEach((video) => {
 				if (!video.isReady()) return;
-				video[method]();
+				video[method](...args);
 			});
 		}
 
@@ -69,21 +74,30 @@
 				console.log('SlideshowSlideVideo: Removed video %o, _videos now is %o', el, this._videos);
 			});
 
+			// Video paused: Resume slideshow
 			this.addEventListener('pause', (ev) => {
 				ev.stopPropagation();
-				this._slideshow.resume();
+				// Only play slideshow if it's visible. If this slide becomes invisible, it should
+				// not interfere with the slideshow
+				if (this._isVisible) this._slideshow.resume();
 			});
 
+			// Video resumed: Pause slideshow
 			this.addEventListener('play', (ev) => {
 				ev.stopPropagation();
-				this._slideshow.pause();
+				// See comment in pause event listener
+				if (this._isVisible) this._slideshow.pause();
 			});
 
 			// When video ends, advance to next slide
 			this.addEventListener('end', (ev) => {
 				console.log('SlideshowSlideVideo: Video ended, resume slideshow');
 				ev.stopPropagation();
+				this._modifyVideo('pause');
+				this._slideshow.next();
 				this._slideshow.resume();
+				// Pause, then rewind video to 0 or it will *only* rewind and not play in the slideshow's next loop
+				this._modifyVideo('goTo', [0]);
 			});
 
 		}
