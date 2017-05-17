@@ -33,6 +33,17 @@
 	<slideshow-slide></slideshow-slide>
 </jb-slideshow>
 
+<ul>
+	<li>Plays video even on first slide</li>
+</ul>
+<jb-slideshow style="border:1px solid tomato;width:600px;display:block;" flickity-options='{"adaptiveHeight": true, "autoPlay": 2000}'>
+	<slideshow-slide-video>
+		<youtube-video identifier="kf57_AZHc1U"></youtube-video>
+	</slideshow-slide-video>
+	<slideshow-slide></slideshow-slide>
+</jb-slideshow>
+
+
 <script>
 	/* global Array, document */
 	Array.from(document.querySelectorAll('slideshow-slide, video-slideshow-slide')).forEach((slide) => {

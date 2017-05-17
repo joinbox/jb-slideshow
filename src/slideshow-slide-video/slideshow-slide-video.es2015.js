@@ -32,7 +32,14 @@
 		
 			if (visible) {
 				console.log('SlideshowSlideVideo: %o became visible', this);
-				this._modifyVideo('play');
+				// Play video only *after* video is ready. Check if we're still visible. If
+				// we start playing earlier, action might not happen (as video rejects play
+				// requests before it's ready)
+				this.addEventListener('ready', (ev) => {
+					// Check if ready event was emitted from the video (and not another element)
+					if (this._videos.indexOf(ev.target) === -1) return;
+					if (this._isVisible) this._modifyVideo('play');
+				});
 				// Pause video here and not *only* on play callback of video
 				// as slide might continue while video is loading (and before 
 				// play callback fires). Then this slide is not visible any more,
