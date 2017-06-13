@@ -31,15 +31,15 @@
 			this._isVisible = visible;
 		
 			if (visible) {
-				console.log('SlideshowSlideVideo: %o became visible', this);
-				// Play video only *after* video is ready. Check if we're still visible. If
-				// we start playing earlier, action might not happen (as video rejects play
-				// requests before it's ready)
-				this.addEventListener('ready', (ev) => {
-					// Check if ready event was emitted from the video (and not another element)
-					if (this._videos.indexOf(ev.target) === -1) return;
-					if (this._isVisible) this._modifyVideo('play');
-				});
+				console.log('SlideshowSlideVideo: %o became visible; pause slideshow, wait until all videos are ready', this);
+
+				// If not all videos are ready, wait until they are, pause slideshow in the meantime
+				this._waitUntilAllVideosAreReady()
+					.then(() => {
+						console.log('SlideshowSlideVideo: All videos were loaded');
+						this._modifyVideo('play');
+					});
+
 				// Pause video here and not *only* on play callback of video
 				// as slide might continue while video is loading (and before 
 				// play callback fires). Then this slide is not visible any more,
@@ -48,11 +48,40 @@
 				this._slideshow.pause();
 			}
 			else {
+				console.log('SlideshowSlideVideo: %o became hidden', this);
 				this._modifyVideo('pause');
 			}
 
 		}
 
+
+		/**
+		* Returns promise that resolves when 
+		* - at least one video exists in this._videos and
+		* - all videos are ready
+		*/
+		_waitUntilAllVideosAreReady() {
+			//console.error(this._videos, this._areAllVideosReady());
+			//this._videos.forEach((video) => console.log(video.isReady()));
+			if (this._videos.length && this._areAllVideosReady()) return Promise.resolve();
+			// Else happens also if there are no videos (because they have not yet been registered).
+			// We therefore assume that all slideshow-slide-video must contain at least one video!
+			else {
+				return new Promise((resolve) => {
+					this.addEventListener('ready', (ev) => {
+						if (this._areAllVideosReady()) resolve();
+						else return;
+					});
+				});
+			}
+		}
+
+		/**
+		* Returns true if isReady() returns true on all this._videos
+		*/
+		_areAllVideosReady() {
+			return this._videos.every((video) => video.isReady());
+		}
 
 
 		/**

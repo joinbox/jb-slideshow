@@ -20,7 +20,12 @@
 
 
 		connectedCallback() {
-			this._initSlideshow();
+			// Only auto-init if manual-init attribute is *not* set. Why's this option?
+			// Because if we use the slideshow in an angular template, it will initialize 
+			// too early when the angular template is still a documentFragment – the slideshow
+			// will not work. See e.g. 
+			// https://github.com/benjamincharity/angular-flickity/issues/30#issuecomment-202467150
+			if (!this.hasAttribute('manual-init')) this._initSlideshow();
 		}
 
 
@@ -33,17 +38,20 @@
 			// Slide registers itself
 			this.addEventListener('add-slide', (ev) => {
 				console.log('Slideshow: Slide %o registered', ev.detail.element);
-				this._slides.push(ev.detail.element);
+				const slide = ev.detail.element;
+				this._slides.push(slide);
 				if (ev.detail.registerHandler) ev.detail.registerHandler(this);
+				// Slide is visible: Call 
+				if (this._flickity && this._flickity.selectedElement === slide) {
+					console.log('Slideshow: Registered slide %o is visible', slide);
+					slide.visibilityChange(true);
+				}
 			});
 
 			// Slide unregisters itself
 			this.addEventListener('remove-slide', (ev) => {
 				console.log('Slideshow: Slide %o un-registered', ev.detail.element);
 				this._slides.splice(this._slides.indexOf(ev.detail.element), 1);
-				// Update cells – http://flickity.metafizzy.co/api.html#reloadcells
-				//this._flickity.destroy();
-				//setTimeout(() => this._initSlideshow(), 1);
 			});
 
 		}
@@ -79,10 +87,14 @@
 
 			}
 
-			console.log('Slideshow: Initialize Flickity with options %o', parsedOptions);
+			console.log('Slideshow: Initialize Flickity with options %o, slides %o', parsedOptions, this._slides);
+
+			// Was initialized before: Re-set everything
+			if (this._initialized) this._flickity.destroy();
 
 			this._flickity = new Flickity(this, parsedOptions);
 			this._setupFlickityListeners();
+			this._initialized = true;
 
 		}
 
@@ -134,6 +146,11 @@
 			// Go straight to next slide
 			console.log('Slideshow: Next slide');
 			this._flickity.next();
+		}
+
+		init() {
+			console.log('Slideshow: init');
+			this._initSlideshow();
 		}
 
 
